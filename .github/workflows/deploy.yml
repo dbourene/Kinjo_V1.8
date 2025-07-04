@@ -31,4 +31,4 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./dist   # dossier build Vite par défaut
-        server-dir: /www    # adapte selon OVH
+        server-dir: /home/kinjoew/www
