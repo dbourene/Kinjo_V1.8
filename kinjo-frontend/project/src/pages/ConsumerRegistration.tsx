@@ -143,6 +143,8 @@ const PrmStep = ({ formData, updateFormData, handleNext }: any) => (
   </div>
 );
 
+
+
 const TariffStep = ({ formData, updateFormData, handleNext }: any) => {
   const [timeRanges, setTimeRanges] = useState({
     hc: [
@@ -155,26 +157,33 @@ const TariffStep = ({ formData, updateFormData, handleNext }: any) => {
     ]
   });
 
+  // Nouveau state pour le graphique, toujours initialisé à un tableau vide
+  const [graphRanges, setGraphRanges] = useState<{
+    start: string;
+    end: string;
+    type: 'hc' | 'pointe' | 'hp';
+  }[]>([]);
+
   // Fonction pour convertir les timeRanges en format pour le graphique
   const convertTimeRangesToGraphFormat = useCallback(() => {
     const ranges = [];
     
-    // Ajouter HC1 si les deux champs sont remplis
+    // Ajouter hc1 si les deux champs sont remplis
     if (timeRanges.hc[0].start && timeRanges.hc[0].end) {
       ranges.push({
         start: timeRanges.hc[0].start,
         end: timeRanges.hc[0].end,
-        type: 'HC' as const,
+        type: 'hc' as const,
         label: 'HC 1'
       });
     }
     
-    // Ajouter HC2 si les deux champs sont remplis
+    // Ajouter hc2 si les deux champs sont remplis
     if (timeRanges.hc[1].start && timeRanges.hc[1].end) {
       ranges.push({
         start: timeRanges.hc[1].start,
         end: timeRanges.hc[1].end,
-        type: 'HC' as const,
+        type: 'hc' as const,
         label: 'HC 2'
       });
     }
@@ -183,8 +192,23 @@ const TariffStep = ({ formData, updateFormData, handleNext }: any) => {
     return ranges;
   }, [timeRanges]);
 
-  // State pour les ranges du graphique
-  const [graphRanges, setGraphRanges] = useState([]);
+  // Synchroniser formData.timeRanges vers graphRanges
+  useEffect(() => {
+    if (!formData.timeRanges) {
+      setGraphRanges([]);
+      return;
+    }
+
+    // Conversion des données pour le graphique
+    const ranges = formData.timeRanges.map(r => ({
+      start: r.start || '',
+      end: r.end || '',
+      type: r.type || 'hp'
+    }));
+
+    setGraphRanges(ranges);
+  }, [formData.timeRanges]);
+
 
   // Synchroniser timeRanges vers graphRanges
   useEffect(() => {
@@ -270,7 +294,7 @@ const TariffStep = ({ formData, updateFormData, handleNext }: any) => {
     if (formData.subscriptionType === '5_classes') {
       timeRanges.pointe.forEach((range, index) => {
         if (range.start && range.end) {
-          allRanges.push({ type: 'Pointe', index, start: range.start, end: range.end });
+          allRanges.push({ type: 'pointe', index, start: range.start, end: range.end });
         }
       });
     }
@@ -350,7 +374,7 @@ const TariffStep = ({ formData, updateFormData, handleNext }: any) => {
     if (formData.subscriptionType === '5_classes') {
       timeRanges.pointe.forEach(range => {
         if (range.start && range.end) {
-          ranges.push(`Pointe (${range.start}-${range.end})`);
+          ranges.push(`pointe (${range.start}-${range.end})`);
         }
       });
     }
