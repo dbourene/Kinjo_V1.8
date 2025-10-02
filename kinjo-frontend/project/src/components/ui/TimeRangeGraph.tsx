@@ -46,8 +46,18 @@ const TimeRangeGraph: React.FC<Props> = ({ timeRanges = [] }) => {
       const color =
         type === "hc" ? "#92C55E" : type === "pointe" ? "#1D4C3C" : "#FFB902";
 
-      for (let i = s; i < e; i++) {
-        data[i % 1440] = color;
+      if (s < e) {
+        for (let i = s; i < e; i++) {
+          data[i % 1440] = color;
+        }
+      } else {
+        // Plage qui passe minuit
+        for (let i = s; i < 1440; i++) {
+          data[i] = color;
+        }
+        for (let i = 0; i < e; i++) {
+          data[i] = color;
+        }
       }
     });
 
