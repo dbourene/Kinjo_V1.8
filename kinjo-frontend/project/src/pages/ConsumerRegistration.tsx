@@ -188,6 +188,26 @@ const TariffStep = ({ formData, updateFormData, handleNext }: any) => {
       });
     }
     
+    // Ajouter Pointe1 si les deux champs sont remplis
+      if (timeRanges.pointe[0].start && timeRanges.pointe[0].end) {
+        ranges.push({
+          start: timeRanges.pointe[0].start,
+          end: timeRanges.pointe[0].end,
+          type: 'pointe' as const,
+          label: 'Pointe 1'
+        });
+      }
+
+      // Ajouter Pointe2 si les deux champs sont remplis
+      if (timeRanges.pointe[1].start && timeRanges.pointe[1].end) {
+        ranges.push({
+          start: timeRanges.pointe[1].start,
+          end: timeRanges.pointe[1].end,
+          type: 'pointe' as const,
+          label: 'Pointe 2'
+        });
+      }
+
     console.log('🔄 Conversion timeRanges vers graphique:', ranges);
     return ranges;
   }, [timeRanges]);
@@ -1001,7 +1021,7 @@ const TariffStep = ({ formData, updateFormData, handleNext }: any) => {
       {(formData.subscriptionType === 'hp_hc' || formData.subscriptionType === '4_classes' || formData.subscriptionType === '5_classes') && (
         <div className="mt-6">
           <TimeRangeGraph
-            rangesData={graphRanges || []}
+            timeRanges={graphRanges || []}
             classeTemporelle={formData.classeTemporelleTarifaire || 'DT'}
           />
           
