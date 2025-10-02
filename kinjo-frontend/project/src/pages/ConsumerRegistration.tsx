@@ -286,7 +286,7 @@ const TariffStep = ({ formData, updateFormData, handleNext }: any) => {
     // Ajouter les plages HC
     timeRanges.hc.forEach((range, index) => {
       if (range.start && range.end) {
-        allRanges.push({ type: 'HC', index, start: range.start, end: range.end });
+        allRanges.push({ type: 'hc', index, start: range.start, end: range.end });
       }
     });
     
@@ -366,7 +366,7 @@ const TariffStep = ({ formData, updateFormData, handleNext }: any) => {
     // Ajouter les plages HC
     timeRanges.hc.forEach(range => {
       if (range.start && range.end) {
-        ranges.push(`HC (${range.start}-${range.end})`);
+        ranges.push(`hc (${range.start}-${range.end})`);
       }
     });
     
@@ -475,7 +475,7 @@ const TariffStep = ({ formData, updateFormData, handleNext }: any) => {
         ranges.push({
           start: range.start,
           end: range.end,
-          type: 'HC' as const,
+          type: 'hc' as const,
           label: `HC ${index + 1}`
         });
       }
