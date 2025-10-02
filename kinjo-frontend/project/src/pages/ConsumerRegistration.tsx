@@ -1,3 +1,6 @@
+// src/pages/ConsumerRegistration.tsx
+// Page d'inscription pour les consommateurs (particuliers et entreprises)
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
@@ -10,7 +13,7 @@ import { BackButton } from '../components/ui/back-button';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { InfoPopup } from '../components/ui/InfoPopup';
-import { TimeRangeGraph } from '../components/ui/TimeRangeGraph';
+import TimeRangeGraph from '../components/ui/TimeRangeGraph';
 
 interface ConsumerFormData {
   userType: 'consommateur';
@@ -974,7 +977,7 @@ const TariffStep = ({ formData, updateFormData, handleNext }: any) => {
       {(formData.subscriptionType === 'hp_hc' || formData.subscriptionType === '4_classes' || formData.subscriptionType === '5_classes') && (
         <div className="mt-6">
           <TimeRangeGraph
-            rangesData={graphRanges}
+            rangesData={graphRanges || []}
             classeTemporelle={formData.classeTemporelleTarifaire || 'DT'}
           />
           
