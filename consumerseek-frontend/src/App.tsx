@@ -83,21 +83,7 @@ function App() {
   }
 
   if (route.type === 'upload' && route.token) {
-    return (
-      <>
-        {user && (
-          <div className="fixed top-4 left-4 z-50">
-            <button
-              onClick={navigateToApp}
-              className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors shadow-lg"
-            >
-              ← Retour au Dashboard
-            </button>
-          </div>
-        )}
-        <PublicInvoiceUpload token={route.token} />
-      </>
-    );
+    return <PublicInvoiceUpload token={route.token} />;
   }
 
   if (!user) {
